@@ -37,8 +37,15 @@ run_simulation = function(n_trials, n, p, cutoff)
       }
     }
   }
-  hist(all.vals)
+  save(all.vals, file="p-vals.RData")
 }
 
 run_simulation(5, c(100, 1000, 10000), p=c(10, 20, 50), cutoff=0.05)
 
+make_plot = function(datapath)
+{
+  load(datapath)
+  hist(all.vals)
+}
+
+make_plot("p-vals.RData")
