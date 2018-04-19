@@ -8,3 +8,16 @@ generate_data = function(n, p)
   return (res)
 }
 
+model_select = function(covariates, responses, cutoff)
+{
+  linear.reg = lm(responses ~ covariates)
+  x = summary(linear.reg)$coefficients[-1, 4]
+  bool.vec = x <= cutoff
+  if (sum(bool.vec) == 0)
+  {
+    return (c())
+  }
+  linear.reg2 = lm(responses ~ covariates[,bool.vec])
+  retained = summary(linear.reg2)$coefficients[-1, 4]
+  return (retained)
+}
