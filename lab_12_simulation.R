@@ -21,3 +21,24 @@ model_select = function(covariates, responses, cutoff)
   retained = summary(linear.reg2)$coefficients[-1, 4]
   return (retained)
 }
+
+run_simulation = function(n_trials, n, p, cutoff)
+{
+  all.vals = c()
+  for (i in 1:n_trials)
+  {
+    for (curr_n in n)
+    {
+      for (curr_p in p)
+      {
+        data.list = generate_data(curr_n, curr_p)
+        vals = model_select(data.list[["covariates"]], data.list[["responses"]], cutoff)
+        all.vals = c(vals, all.vals)
+      }
+    }
+  }
+  hist(all.vals)
+}
+
+run_simulation(5, c(100, 1000, 10000), p=c(10, 20, 50), cutoff=0.05)
+
